@@ -1,7 +1,7 @@
 /**
  * @file Main script for the Interactive Resume Web App.
  * @author Aseem Mehrotra & Gemini
- * @version 2.0.0
+ * @version 2.1.0
  * @description This script handles data fetching, DOM population, 3D animations, and scroll-based interactions.
  */
 
@@ -77,12 +77,14 @@ const DOM = {
     },
     populateImpactMeters: () => {
         const container = document.getElementById('impact-meters-container');
-        container.innerHTML = state.data.impactMeters.map(meter => `
+        container.innerHTML = state.data.impactMeters.map(meter => {
+            const initialText = `${meter.prefix || ''}0${meter.unit || ''}`;
+            return `
             <div class="glass-panel p-6 rounded-xl">
-                <div class="font-orbitron text-4xl font-bold text-cyan-400" data-value="${meter.value}" data-prefix="${meter.prefix || ''}" data-unit="${meter.unit || ''}">0</div>
+                <div class="font-orbitron text-4xl font-bold text-cyan-400" data-value="${meter.value}" data-prefix="${meter.prefix || ''}" data-unit="${meter.unit || ''}">${initialText}</div>
                 <div class="text-sm text-slate-400 mt-2">${meter.label}</div>
             </div>
-        `).join('');
+        `}).join('');
     },
     populateTimeline: () => {
         const container = document.getElementById('timeline-container');
@@ -180,7 +182,6 @@ const Animations = {
     initSkillsGalaxy: () => {
         const s = state.three.skills;
         const canvas = document.getElementById('skills-canvas');
-        const tooltip = document.getElementById('skill-tooltip');
         s.scene = new THREE.Scene();
         s.camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
         s.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
@@ -230,22 +231,33 @@ const Animations = {
     initScrollAnimations: () => {
         gsap.registerPlugin(ScrollTrigger);
 
-        // Impact meters counter
+        // --- FIX START: Correct Impact Meter Animation ---
         document.querySelectorAll('#impact-meters-container [data-value]').forEach(meter => {
             const endValue = parseFloat(meter.dataset.value);
             const prefix = meter.dataset.prefix || '';
             const unit = meter.dataset.unit || '';
-            gsap.from(meter, {
-                textContent: 0,
+
+            let proxy = { value: 0 };
+
+            gsap.to(proxy, {
+                value: endValue,
                 duration: 2,
                 ease: "power1.inOut",
-                snap: { textContent: 1 },
-                scrollTrigger: { trigger: meter, start: "top 80%" },
-                onUpdate: function() {
-                    meter.textContent = prefix + Math.ceil(this.targets()[0].textContent) + unit;
+                scrollTrigger: {
+                    trigger: meter,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                onUpdate: () => {
+                    meter.textContent = prefix + Math.ceil(proxy.value) + unit;
+                },
+                onComplete: () => {
+                    // Ensure the final value is precise
+                    meter.textContent = prefix + endValue + unit;
                 }
             });
         });
+        // --- FIX END ---
 
         // Timeline items fade-in
         document.querySelectorAll('.timeline-item').forEach(item => {
