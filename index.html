@@ -1,239 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aseem Mehrotra | Professional Portfolio</title>
-    <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
-</head>
-<body class="dark-theme"> <!-- Default theme is dark -->
-
-    <!-- PRELOADER -->
-    <div id="preloader">
-        <div class="loader-text">Loading Portfolio...</div>
-        <div class="progress-bar-container">
-            <div id="progress-bar"></div>
-        </div>
-    </div>
-
-    <!-- MAIN CONTENT -->
-    <div id="main-content" class="hidden">
-        <header>
-            <button id="theme-toggle">
-                <!-- SVG icons will be injected by JS -->
-            </button>
-        </header>
-
-        <main class="container">
-            <section class="intro">
-                <h1>Aseem Mehrotra</h1>
-                <h2>Instrumentation & Control Engineer | Data Science & AI Specialist</h2>
-            </section>
-
-            <section class="kpi-cards">
-                <div class="kpi-card">
-                    <h3>17+</h3>
-                    <p>Years of Experience</p>
-                </div>
-                <div class="kpi-card">
-                    <h3>MSc Distinction</h3>
-                    <p>Data Science (Top 5%)</p>
-                </div>
-                <div class="kpi-card">
-                    <h3>-1319 Tons</h3>
-                    <p>Annual CO2 Reduction</p>
-                </div>
-                <div class="kpi-card">
-                    <h3>Gold Medalist</h3>
-                    <p>BTech Instrumentation Eng.</p>
-                </div>
-            </section>
-
-            <nav class="main-nav">
-                <button class="nav-button" data-section="summary">Profile Summary</button>
-                <button class="nav-button" data-section="experience">Experience</button>
-                <button class="nav-button" data-section="education">Education</button>
-                <button class="nav-button" data-section="projects">Projects</button>
-                <button class="nav-button" data-section="skills">Skills</button>
-                <button class="nav-button" data-section="certifications">Certifications</button>
-            </nav>
-        </main>
-    </div>
-
-    <!-- MODAL FOR DETAILS -->
-    <div id="modal-container" class="hidden">
-        <div id="modal-content">
-            <button id="modal-close-btn">&times;</button>
-            <div id="modal-body"></div>
-        </div>
-    </div>
-
-    <!-- TEMPLATES FOR MODAL CONTENT -->
-
-    <!-- Profile Summary Template -->
-    <template id="template-summary">
-        <h2>Profile Summary</h2>
-        <p>Results-driven professional with over 17 years of experience in the oil and gas industry, delivering tangible outcomes in risk management, operational efficiency, and safety compliance. Excel at reliability enhancement and optimized commissioning processes through expertise in Instrumentation and Control engineering. Recently pivoted to Data Science, graduating with Distinction from a Master's program and skilled in data analysis, visualization, machine learning, and GenAI to drive business value.</p>
-    </template>
-
-    <!-- Experience Template -->
-    <template id="template-experience">
-        <h2>Work Experience</h2>
-        <div class="timeline">
-            <div class="timeline-item">
-                <h3>Senior Instrumentation Construction Engineer</h3>
-                <p><strong>KBR Inc. (for ADNOC Gas)</strong> | Abu Dhabi | Feb 2025 - Present</p>
-                <ul>
-                    <li>Validated design integrity by scrutinizing engineering documents for Ethane & CO2 Recovery Projects.</li>
-                    <li>Optimized fire & gas system design by reviewing and validating control and trip philosophy.</li>
-                    <li>Improved reliability by reviewing data sheets for over 500 control and safety valves.</li>
-                    <li>Strengthened OT security by verifying the Purdue Model Structure.</li>
-                    <li>Elevated engineering excellence by crafting and implementing technical specifications and guidelines.</li>
-                    <li>Proactively reduced project risks by conducting thorough Risk Assessment exercises.</li>
-                    <li>Executed project tie-ins flawlessly by meticulously planning and coordinating activities.</li>
-                </ul>
-            </div>
-            <div class="timeline-item">
-                <h3>Instrumentation & Control Engineer</h3>
-                <p><strong>ADNOC GAS</strong> | Abu Dhabi | Apr 2015 - Aug 2023</p>
-                <ul>
-                    <li>Awarded "Exceeded Expectations" for managing turnarounds with 100% safety compliance during the pandemic.</li>
-                    <li>Oversaw a team of 15, managing work allocation, performance, and skills growth.</li>
-                    <li>Mentored 5 new employees, fast-tracking their training period by 15-18%.</li>
-                    <li>Ensured safety compliance by conducting HAZOP studies for 100+ safety-critical assets.</li>
-                    <li>Heightened plant safety by 8-10% by formulating risk mitigation strategies for over 10,000 assets.</li>
-                    <li>Spearheaded a sustainability initiative that reduced greenhouse gas emissions by 1319 tons of CO2 annually.</li>
-                    <li>Maximized plant reliability by strategically allocating a $300K annual OPEX budget.</li>
-                    <li>Reduced downtime by 15-20% by modernizing an obsolete temperature monitoring system.</li>
-                    <li>Amplified work efficiency by 12-15% by optimizing resource allocation and streamlining processes.</li>
-                    <li>Generated $50K in recurring annual cost savings through inventory optimization.</li>
-                </ul>
-            </div>
-            <div class="timeline-item">
-                <h3>Senior Instrumentation Reliability Engineer</h3>
-                <p><strong>RELIANCE INDUSTRIES LIMITED</strong> | Gujarat, India | Nov 2006 - Apr 2015</p>
-                <ul>
-                    <li>Awarded "Significantly Exceeded Expectations" (Highest rating) for three successive years (2011-2013).</li>
-                    <li>Elevated system reliability by revamping a legacy hardwired Emergency Shutdown System to a modern IEC 61511 compliant system.</li>
-                    <li>Contributed to the successful commissioning of the SBR/PBR plant.</li>
-                    <li>Led Factory Acceptance Testing (FAT) and Site Acceptance Testing (SAT) of system graphics.</li>
-                    <li>Decreased storage area downtime by 20% by leading a digital transformation project from pneumatic to modern digitized systems.</li>
-                </ul>
-            </div>
-        </div>
-    </template>
-
-    <!-- Education Template -->
-    <template id="template-education">
-        <h2>Education</h2>
-        <div class="education-item">
-            <h3>Master of Science in Data Science for Business</h3>
-            <p><strong>University of Stirling, Scotland</strong> | Grade: <strong>Distinction</strong> (Top 5% of 150 students)</p>
-            <ul>
-                <li>Best Scorer in Business Consulting (80%) and Statistics with R (100%).</li>
-                <li>Led the winning team for the "Lego Business Game of Supply Chain Optimization".</li>
-                <li>Selected for a 12-week industrial project with WBM Ltd, launching a Power BI performance management system.</li>
-            </ul>
-        </div>
-        <div class="education-item">
-            <h3>Bachelor of Technology in Instrumentation Engineering</h3>
-            <p><strong>Uttar Pradesh Technical University, India</strong> | Grade: <strong>Institute Gold Medalist</strong> (74%)</p>
-        </div>
-    </template>
-
-    <!-- Projects Template -->
-    <template id="template-projects">
-        <h2>Projects</h2>
-        <div class="project-grid">
-            <div class="project-card">
-                <h3>ScienceGPT</h3>
-                <p>An AI-powered assistant for scientific queries.</p>
-                <div class="project-links">
-                    <a href="https://github.com/aseemm84/science-gpt" target="_blank">GitHub Repo</a>
-                    <a href="https://science-gpt.streamlit.app" target="_blank">Live App</a>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>LoShu Grid Analysis</h3>
-                <p>A web application exploring the mystical Lo Shu Grid.</p>
-                <div class="project-links">
-                    <a href="https://github.com/aseemm84/LoShuGrid" target="_blank">GitHub Repo</a>
-                    <a href="https://loshugrid.streamlit.app" target="_blank">Live App</a>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>GenAI Resume-Checker</h3>
-                <p>A tool to evaluate and provide feedback on resumes.</p>
-                <div class="project-links">
-                    <a href="https://github.com/aseemm84/Resume-Checker" target="_blank">GitHub Repo</a>
-                    <a href="https://genai-resume-checker.streamlit.app" target="_blank">Live App</a>
-                </div>
-            </div>
-            <div class="project-card">
-                <h3>Business Intelligence App</h3>
-                <p>A BI tool for data analysis and visualization.</p>
-                <div class="project-links">
-                    <a href="https://github.com/aseemm84/Business-Intelligence-App" target="_blank">GitHub Repo</a>
-                    <a href="https://data-bi-tool.streamlit.app" target="_blank">Live App</a>
-                </div>
-            </div>
-        </div>
-    </template>
-
-    <!-- Skills Template -->
-    <template id="template-skills">
-        <h2>Core Competencies</h2>
-        <div class="skills-container">
-            <div class="skill-category">
-                <h3>Data Science & Analytics</h3>
-                <ul>
-                    <li>Python (Pandas, Scikit-learn)</li>
-                    <li>SQL</li>
-                    <li>Power BI (DAX, Power Query)</li>
-                    <li>Tableau</li>
-                    <li>Machine Learning</li>
-                    <li>Generative AI (Prompt Engineering)</li>
-                    <li>Advanced Excel</li>
-                    <li>Data Analysis & Visualization</li>
-                </ul>
-            </div>
-            <div class="skill-category">
-                <h3>Instrumentation & Control</h3>
-                <ul>
-                    <li>Risk Management (HAZOP, SIL)</li>
-                    <li>Reliability Engineering</li>
-                    <li>Asset Management</li>
-                    <li>Process Optimization</li>
-                    <li>Root Cause Analysis</li>
-                    <li>Safety Integrity Studies</li>
-                </ul>
-            </div>
-            <div class="skill-category">
-                <h3>Professional & Management</h3>
-                <ul>
-                    <li>Project Management</li>
-                    <li>Leadership & Team Management</li>
-                    <li>Stakeholder Management</li>
-                    <li>Performance Management</li>
-                    <li>KPI Development</li>
-                </ul>
-            </div>
-        </div>
-    </template>
+    <title>Aseem Mehrotra | Digital Professional Odyssey</title>
     
-    <!-- Certifications Template -->
-    <template id="template-certifications">
-        <h2>Certifications</h2>
-        <div class="cert-list">
-            <a href="https://www.mygreatlearning.com/certificate/SGNACEDJ" target="_blank">Generative AI for Business with Microsoft Azure</a>
-            <a href="https://learn.microsoft.com/en-us/users/aseemmehrotra-4429/credentials/e170783fa75ca2f1" target="_blank">Microsoft Certified: Power BI Data Analyst Associate</a>
-            <a href="https://olympus1.mygreatlearning.com/certificate/MSDGMXNJ" target="_blank">MITx: Supply Chain Analytics</a>
-            <a href="https://credentials.edx.org/credentials/7ab177ff4fe14e858168c2fd8c2de69d/" target="_blank">Harvard Business School Online: CORe</a>
-            <a href="#" onclick="return false;">NEBOSH International General Certificate</a>
-        </div>
-    </template>
+    <!-- External Stylesheet -->
+    <link rel="stylesheet" href="style.css">
 
-    <script src="./script.js"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+
+    <!-- Third-party Libraries -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/ScrollTrigger.min.js"></script>
+</head>
+<body class="antialiased">
+
+    <!-- Mission-Control Navigation -->
+    <aside class="fixed top-0 left-0 h-screen w-20 lg:w-64 p-4 z-40 flex flex-col justify-between glass-panel">
+        <div>
+            <h2 class="font-orbitron text-lg font-bold text-cyan-400 hidden lg:block">A.M.</h2>
+            <nav id="main-nav" class="mt-10 space-y-4">
+                <!-- Nav items will be injected by JS -->
+            </nav>
+        </div>
+        <div id="progress-bar-container" class="relative h-48 w-full hidden lg:flex justify-center items-end">
+             <div class="w-1 bg-gray-700 h-full absolute bottom-0"></div>
+             <div id="progress-rocket" class="absolute text-2xl progress-rocket" style="bottom: 0;">🚀</div>
+        </div>
+    </aside>
+
+    <main class="ml-20 lg:ml-64 p-4 md:p-8">
+        
+        <!-- 1. Landing "Constellation" -->
+        <section id="vision" class="relative h-screen flex items-center justify-center text-center -m-8">
+            <canvas id="landing-canvas"></canvas>
+            <div class="relative z-10">
+                <h1 id="landing-name" class="font-orbitron text-5xl md:text-8xl font-black uppercase tracking-wider text-white"></h1>
+                <div class="h-8 mt-4">
+                    <p id="landing-tagline" class="text-xl md:text-2xl text-cyan-400 font-light"></p>
+                </div>
+                <a href="#timeline" class="mt-8 inline-block bg-cyan-500 text-gray-900 font-bold py-3 px-8 rounded-full uppercase tracking-widest hover:bg-cyan-400 transition-all duration-300 transform hover:scale-105">
+                    Explore My Journey
+                </a>
+            </div>
+        </section>
+
+        <!-- Impact Meters -->
+        <section id="impact" class="py-20">
+            <div id="impact-meters-container" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8 text-center">
+                <!-- Impact meters will be injected by JS -->
+            </div>
+        </section>
+
+        <!-- 2. Dual-Helix Timeline -->
+        <section id="timeline" class="py-20">
+            <h2 class="font-orbitron text-4xl font-bold text-center mb-16">Dual-Helix Timeline</h2>
+            <div class="relative max-w-5xl mx-auto">
+                <svg class="absolute top-0 left-1/2 -translate-x-1/2 h-full w-full" preserveAspectRatio="none" viewBox="0 0 300 1200">
+                    <path d="M 100,0 C 0,150 0,150 100,300 S 200,450 100,600 S 0,750 100,900 S 200,1050 100,1200" stroke="rgba(0, 255, 255, 0.2)" stroke-width="2" fill="none" class="helix-path"/>
+                    <path d="M 200,0 C 300,150 300,150 200,300 S 100,450 200,600 S 300,750 200,900 S 100,1050 200,1200" stroke="rgba(255, 255, 255, 0.2)" stroke-width="2" fill="none" class="helix-path"/>
+                </svg>
+                <div id="timeline-container" class="relative space-y-12">
+                    <!-- Timeline items will be injected by JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- 3. Skills Galaxy -->
+        <section id="skills" class="relative h-screen flex flex-col items-center justify-center text-center py-20 -mx-8">
+            <canvas id="skills-canvas"></canvas>
+            <div class="relative z-10">
+                <h2 class="font-orbitron text-4xl font-bold text-center mb-4">Skills Galaxy</h2>
+                <p class="text-slate-400 mb-8">Hover over stars to reveal skills. Brightness indicates proficiency.</p>
+                <div id="skill-filters" class="flex justify-center space-x-2 md:space-x-4">
+                    <!-- Filter buttons will be injected by JS -->
+                </div>
+                 <div id="skill-tooltip" class="absolute hidden p-2 text-sm bg-slate-800 text-white rounded-md pointer-events-none"></div>
+            </div>
+        </section>
+
+        <!-- 4. Project Showcase -->
+        <section id="projects" class="py-20">
+            <h2 class="font-orbitron text-4xl font-bold text-center mb-16">Project Showcase</h2>
+            <div id="projects-container" class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
+                <!-- Project cards will be injected by JS -->
+            </div>
+        </section>
+
+        <!-- 5. Certification Carousel -->
+        <section id="certifications" class="py-20">
+            <h2 class="font-orbitron text-4xl font-bold text-center mb-16">Certifications</h2>
+            <div id="certifications-container" class="flex justify-center items-center flex-wrap gap-8">
+                <!-- Certification badges will be injected by JS -->
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Main Application Script -->
+    <script src="script.js" type="module"></script>
 </body>
 </html>
