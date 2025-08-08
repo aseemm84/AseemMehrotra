@@ -175,8 +175,8 @@
     {
       "name": "Social Media Content Generator",
       "description": "Created a GenAI powered web application that generates audience-specific customized social media marketing content.",
-      "liveUrl": "#",
-      "codeUrl": "#"
+      "liveUrl": "https://social-media-post-gen.streamlit.app/",
+      "codeUrl": "https://github.com/aseemm84/DMA-Streamlit-App"
     },
     {
       "name": "Luxury Car Dealership Dashboard",
@@ -198,12 +198,12 @@
     }
   ],
   "certifications": [
-    { "name": "Generative AI for Business with Microsoft Azure OpenAI", "issuer": "Great Learning & Microsoft", "url": "#" },
-    { "name": "Microsoft Certified: Power BI Data Analyst Associate", "issuer": "Microsoft", "url": "#" },
+    { "name": "Generative AI for Business with Microsoft Azure OpenAI", "issuer": "Great Learning & Microsoft", "url": "https://www.mygreatlearning.com/certificate/SGNACEDJ" },
+    { "name": "Microsoft Certified: Power BI Data Analyst Associate", "issuer": "Microsoft", "url": "https://learn.microsoft.com/en-us/users/aseemmehrotra-4429/credentials/e170783fa75ca2f1" },
     { "name": "Business Analytics Specialization", "issuer": "Coursera & University of Illinois", "url": "#" },
     { "name": "Machine Learning Specialization", "issuer": "Coursera & Stanford University", "url": "#" },
-    { "name": "Data Science and Machine Learning: Making Data-Driven Decisions", "issuer": "MIT Schwarzman College of Computing", "url": "#" },
-    { "name": "Supply Chain Certification (CTL.CFX)", "issuer": "MIT xPRO", "url": "#" },
+    { "name": "Data Science and Machine Learning: Making Data-Driven Decisions", "issuer": "MIT Schwarzman College of Computing", "url": "https://olympus1.mygreatlearning.com/certificate/MSDGMXNJ" },
+    { "name": "Supply Chain Certification (CTL.CFX)", "issuer": "MIT xPRO", "url": "https://credentials.edx.org/credentials/7ab177ff4fe14e858168c2fd8c2de69d/" },
     { "name": "Credential of Readiness (CORE)", "issuer": "Harvard Business School Online", "url": "#" },
     { "name": "NEBOSH Int'l General Certificate", "issuer": "NEBOSH", "url": "#" }
   ]
