@@ -1,7 +1,7 @@
 /**
  * @file Main script for the Interactive Resume Web App.
  * @author Aseem Mehrotra & Gemini
- * @version 2.1.0
+ * @version 2.2.0
  * @description This script handles data fetching, DOM population, 3D animations, and scroll-based interactions.
  */
 
@@ -231,32 +231,39 @@ const Animations = {
     initScrollAnimations: () => {
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- FIX START: Correct Impact Meter Animation ---
-        document.querySelectorAll('#impact-meters-container [data-value]').forEach(meter => {
-            const endValue = parseFloat(meter.dataset.value);
-            const prefix = meter.dataset.prefix || '';
-            const unit = meter.dataset.unit || '';
+        // --- FIX START: Robust Impact Meter Animation ---
+        const metersContainer = document.querySelector('#impact-meters-container');
+        if (metersContainer) {
+            const meters = metersContainer.querySelectorAll('[data-value]');
+            
+            ScrollTrigger.create({
+                trigger: metersContainer,
+                start: "top 80%",
+                once: true, // Ensures the animation runs only once
+                onEnter: () => {
+                    meters.forEach(meter => {
+                        const endValue = parseFloat(meter.dataset.value);
+                        const prefix = meter.dataset.prefix || '';
+                        const unit = meter.dataset.unit || '';
 
-            let proxy = { value: 0 };
+                        let proxy = { value: 0 };
 
-            gsap.to(proxy, {
-                value: endValue,
-                duration: 2,
-                ease: "power1.inOut",
-                scrollTrigger: {
-                    trigger: meter,
-                    start: "top 80%",
-                    toggleActions: "play none none none"
-                },
-                onUpdate: () => {
-                    meter.textContent = prefix + Math.ceil(proxy.value) + unit;
-                },
-                onComplete: () => {
-                    // Ensure the final value is precise
-                    meter.textContent = prefix + endValue + unit;
+                        gsap.to(proxy, {
+                            value: endValue,
+                            duration: 2,
+                            ease: "power1.inOut",
+                            onUpdate: () => {
+                                meter.textContent = prefix + Math.ceil(proxy.value) + unit;
+                            },
+                            onComplete: () => {
+                                // Ensure the final value is precise and correct
+                                meter.textContent = prefix + endValue + unit;
+                            }
+                        });
+                    });
                 }
             });
-        });
+        }
         // --- FIX END ---
 
         // Timeline items fade-in
