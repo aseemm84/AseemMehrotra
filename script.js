@@ -1,83 +1,328 @@
-document.addEventListener('DOMContentLoaded', () => {
-    // --- ELEMENTS ---
-    const preloader = document.getElementById('preloader');
-    const progressBar = document.getElementById('progress-bar');
-    const mainContent = document.getElementById('main-content');
-    const themeToggleButton = document.getElementById('theme-toggle');
-    const navButtons = document.querySelectorAll('.nav-button');
-    const modalContainer = document.getElementById('modal-container');
-    const modalBody = document.getElementById('modal-body');
-    const modalCloseBtn = document.getElementById('modal-close-btn');
+/**
+ * @file Main script for the Interactive Resume Web App.
+ * @author Aseem Mehrotra & Gemini
+ * @version 2.0.0
+ * @description This script handles data fetching, DOM population, 3D animations, and scroll-based interactions.
+ */
 
-    // --- THEME SETUP ---
-    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.106a.75.75 0 0 1 0 1.06l-1.591 1.59a.75.75 0 1 1-1.06-1.06l1.59-1.59a.75.75 0 0 1 1.06 0ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.836 17.894a.75.75 0 0 1 1.06 0l1.59 1.59a.75.75 0 1 1-1.06 1.06l-1.59-1.59a.75.75 0 0 1 0-1.06ZM12 21.75a.75.75 0 0 1-.75-.75v-2.25a.75.75 0 0 1 1.5 0V21a.75.75 0 0 1-.75.75ZM5.106 17.894a.75.75 0 0 1 0-1.06l1.59-1.591a.75.75 0 1 1 1.06 1.06l-1.59 1.59a.75.75 0 0 1-1.06 0ZM3 12a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12ZM6.164 6.106a.75.75 0 0 1 1.06 0l1.59 1.59a.75.75 0 1 1-1.06 1.06L6.164 7.166a.75.75 0 0 1 0-1.06Z"/></svg>`;
-    const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69a.75.75 0 0 1 .981.981A10.503 10.503 0 0 1 12 22.5C6.201 22.5 1.5 17.799 1.5 12A10.503 10.503 0 0 1 2.25 6.34a.75.75 0 0 1 .819-.162l4.942 1.346a.75.75 0 0 1 .69.981Z" clip-rule="evenodd" /></svg>`;
-
-    const applyTheme = (theme) => {
-        if (theme === 'light') {
-            document.body.classList.add('light-theme');
-            document.body.classList.remove('dark-theme');
-            themeToggleButton.innerHTML = moonIcon;
-        } else {
-            document.body.classList.add('dark-theme');
-            document.body.classList.remove('light-theme');
-            themeToggleButton.innerHTML = sunIcon;
+// --- MODULE: GLOBAL STATE & CONFIGURATION ---
+const state = {
+    data: null,
+    three: {
+        skills: {
+            scene: null,
+            camera: null,
+            renderer: null,
+            raycaster: null,
+            mouse: null,
+            skillsGroup: null,
+            INTERSECTED: null
         }
-    };
+    }
+};
 
-    // Check for saved theme in localStorage
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
+const config = {
+    jsonPath: './ultimate_resume_data.json',
+    navLinks: [
+        { href: '#vision', text: 'Home', icon: '<svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>' },
+        { href: '#timeline', text: 'Timeline', icon: '<svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>' },
+        { href: '#skills', text: 'Skills', icon: '<svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16v4m-2-2h4m6 10v4m-2-2h4M17 3l-4.5 4.5M17 17l-4.5-4.5M7 17l4.5-4.5M7 7l4.5 4.5"></path></svg>' },
+        { href: '#projects', text: 'Projects', icon: '<svg class="w-6 h-6 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>' },
+    ]
+};
 
-    themeToggleButton.addEventListener('click', () => {
-        const newTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
-        applyTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
 
-    // --- PRELOADER LOGIC ---
-    window.addEventListener('load', () => {
-        progressBar.style.width = '100%';
-        setTimeout(() => {
-            preloader.style.opacity = '0';
-            preloader.addEventListener('transitionend', () => {
-                preloader.style.display = 'none';
-                mainContent.classList.remove('hidden');
+// --- MODULE: DATA HANDLING ---
+async function loadData() {
+    try {
+        const response = await fetch(config.jsonPath);
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        state.data = await response.json();
+    } catch (error) {
+        console.error("Could not load resume data:", error);
+        document.body.innerHTML = `<div class="h-screen w-screen flex items-center justify-center text-red-500 text-center p-4">
+            <p><strong>Error:</strong> Failed to load resume data from <code>${config.jsonPath}</code>.</p>
+            <p class="mt-2 text-sm text-slate-400">Please ensure the file exists and is accessible. Check the browser console for more details.</p>
+        </div>`;
+        throw error; // Stop execution if data fails to load
+    }
+}
+
+
+// --- MODULE: DOM POPULATION ---
+const DOM = {
+    populateNav: () => {
+        const container = document.getElementById('main-nav');
+        container.innerHTML = config.navLinks.map(link => `
+            <a href="${link.href}" class="flex items-center p-2 rounded-lg hover:bg-cyan-900/50 transition-colors duration-300">
+                ${link.icon}
+                <span class="ml-4 hidden lg:inline">${link.text}</span>
+            </a>
+        `).join('');
+    },
+    populateLanding: () => {
+        document.getElementById('landing-name').textContent = state.data.personalInfo.name;
+        const taglineEl = document.getElementById('landing-tagline');
+        let taglineIndex = 0;
+        taglineEl.textContent = state.data.personalInfo.taglines[0];
+        setInterval(() => {
+            taglineIndex = (taglineIndex + 1) % state.data.personalInfo.taglines.length;
+            gsap.to(taglineEl, {
+                opacity: 0, duration: 0.5, onComplete: () => {
+                    taglineEl.textContent = state.data.personalInfo.taglines[taglineIndex];
+                    gsap.to(taglineEl, { opacity: 1, duration: 0.5 });
+                }
             });
-        }, 1800);
-    });
+        }, 3000);
+    },
+    populateImpactMeters: () => {
+        const container = document.getElementById('impact-meters-container');
+        container.innerHTML = state.data.impactMeters.map(meter => `
+            <div class="glass-panel p-6 rounded-xl">
+                <div class="font-orbitron text-4xl font-bold text-cyan-400" data-value="${meter.value}" data-prefix="${meter.prefix || ''}" data-unit="${meter.unit || ''}">0</div>
+                <div class="text-sm text-slate-400 mt-2">${meter.label}</div>
+            </div>
+        `).join('');
+    },
+    populateTimeline: () => {
+        const container = document.getElementById('timeline-container');
+        container.innerHTML = state.data.timeline.map(item => {
+            const alignment = item.strand === 'industrial' ? 'lg:mr-auto lg:pr-8' : 'lg:ml-auto lg:pl-8';
+            const icon = item.strand === 'industrial' ? '⚙️' : '🤖';
+            const border = item.strand === 'industrial' ? 'border-sky-500' : 'border-fuchsia-500';
+            return `
+            <div class="timeline-item w-full lg:w-1/2 ${alignment} relative">
+                <div class="absolute top-5 ${item.strand === 'industrial' ? 'lg:-right-4' : 'lg:-left-4'} w-8 h-8 bg-gray-800 rounded-full flex items-center justify-center text-xl z-10 border-2 ${border}">
+                    ${icon}
+                </div>
+                <div class="glass-panel p-6 rounded-lg border-l-4 ${border}">
+                    <p class="text-sm text-cyan-400">${item.period}</p>
+                    <h3 class="font-bold text-xl mt-1">${item.role}</h3>
+                    <p class="text-slate-300 font-semibold">${item.company}</p>
+                    <ul class="mt-4 space-y-2 text-slate-400 text-sm list-disc list-inside">
+                        ${item.points.map(p => `<li>${p}</li>`).join('')}
+                    </ul>
+                </div>
+            </div>`;
+        }).join('');
+    },
+    populateProjects: () => {
+        const container = document.getElementById('projects-container');
+        container.innerHTML = state.data.projects.map(p => `
+            <div class="glass-panel rounded-lg overflow-hidden group flex flex-col">
+                <div class="p-6 flex-grow">
+                    <h3 class="font-orbitron text-2xl font-bold text-cyan-400">${p.name}</h3>
+                    <p class="text-slate-400 mt-2 h-12">${p.description}</p>
+                </div>
+                <div class="flex space-x-4 p-6 pt-0">
+                    <a href="${p.codeUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center bg-gray-700 text-white py-2 px-4 rounded-md hover:bg-gray-600 transition-colors">Code ↗</a>
+                    <a href="${p.liveUrl}" target="_blank" rel="noopener noreferrer" class="flex-1 text-center bg-cyan-500 text-gray-900 font-bold py-2 px-4 rounded-md hover:bg-cyan-400 transition-colors">Live App ↗</a>
+                </div>
+            </div>
+        `).join('');
+    },
+    populateCertifications: () => {
+        const container = document.getElementById('certifications-container');
+        container.innerHTML = state.data.certifications.map(c => `
+            <a href="${c.url}" target="_blank" rel="noopener noreferrer" class="hex-badge-wrapper">
+                <div class="hex-badge">
+                    <div>
+                        <p class="font-bold text-cyan-400">${c.name}</p>
+                        <p class="text-xs text-slate-400 mt-2">${c.issuer}</p>
+                    </div>
+                </div>
+            </a>
+        `).join('');
+    },
+    populateAll: () => {
+        DOM.populateNav();
+        DOM.populateLanding();
+        DOM.populateImpactMeters();
+        DOM.populateTimeline();
+        DOM.populateProjects();
+        DOM.populateCertifications();
+    }
+};
 
-    // --- MODAL LOGIC ---
-    const openModal = (sectionId) => {
-        const template = document.getElementById(`template-${sectionId}`);
-        if (template) {
-            modalBody.innerHTML = ''; // Clear previous content
-            modalBody.appendChild(template.content.cloneNode(true));
-            modalContainer.classList.remove('hidden');
+
+// --- MODULE: 3D & ANIMATIONS ---
+const Animations = {
+    initLandingAnimation: () => {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('landing-canvas'), alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.z = 5;
+
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCnt = 5000;
+        const posArray = new Float32Array(particlesCnt * 3);
+        for (let i = 0; i < particlesCnt * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 10;
         }
-    };
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({ size: 0.005, color: 0x00ffff });
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
 
-    const closeModal = () => {
-        modalContainer.classList.add('hidden');
-    };
-
-    navButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            const sectionId = button.getAttribute('data-section');
-            openModal(sectionId);
+        const animate = () => {
+            requestAnimationFrame(animate);
+            particlesMesh.rotation.y += 0.0005;
+            renderer.render(scene, camera);
+        };
+        animate();
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
         });
-    });
+    },
+    initSkillsGalaxy: () => {
+        const s = state.three.skills;
+        const canvas = document.getElementById('skills-canvas');
+        const tooltip = document.getElementById('skill-tooltip');
+        s.scene = new THREE.Scene();
+        s.camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
+        s.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+        s.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        s.camera.position.z = 200;
 
-    modalCloseBtn.addEventListener('click', closeModal);
-    modalContainer.addEventListener('click', (e) => {
-        if (e.target === modalContainer) {
-            closeModal();
-        }
-    });
+        s.raycaster = new THREE.Raycaster();
+        s.mouse = new THREE.Vector2();
+        s.skillsGroup = new THREE.Group();
+        
+        const skillCategories = ['All', ...new Set(state.data.skills.map(skill => skill.category))];
+        const colors = { 'Data Science': 0x00ffff, 'Engineering': 0x00ff00, 'Leadership': 0xffff00 };
 
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && !modalContainer.classList.contains('hidden')) {
-            closeModal();
-        }
-    });
-});
+        state.data.skills.forEach(skill => {
+            const material = new THREE.SpriteMaterial({
+                color: colors[skill.category],
+                opacity: 0.5 + skill.proficiency * 0.5,
+                transparent: true
+            });
+            const sprite = new THREE.Sprite(material);
+            sprite.position.setFromSphericalCoords(100, Math.acos(-1 + (2 * Math.random())), Math.sqrt(4 * Math.PI) * Math.random());
+            sprite.scale.set(4, 4, 1);
+            sprite.userData = { name: skill.name, category: skill.category };
+            s.skillsGroup.add(sprite);
+        });
+        s.scene.add(s.skillsGroup);
+
+        const animate = () => {
+            requestAnimationFrame(animate);
+            s.skillsGroup.rotation.y += 0.0005;
+            s.renderer.render(s.scene, s.camera);
+        };
+        animate();
+        
+        // Filters
+        const filtersContainer = document.getElementById('skill-filters');
+        filtersContainer.innerHTML = skillCategories.map(cat => `<button data-category="${cat}" class="skill-filter-btn glass-panel px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">${cat}</button>`).join('');
+        filtersContainer.addEventListener('click', e => {
+            if (e.target.classList.contains('skill-filter-btn')) {
+                const category = e.target.dataset.category;
+                s.skillsGroup.children.forEach(child => {
+                    child.visible = (category === 'All' || child.userData.category === category);
+                });
+            }
+        });
+    },
+    initScrollAnimations: () => {
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Impact meters counter
+        document.querySelectorAll('#impact-meters-container [data-value]').forEach(meter => {
+            const endValue = parseFloat(meter.dataset.value);
+            const prefix = meter.dataset.prefix || '';
+            const unit = meter.dataset.unit || '';
+            gsap.from(meter, {
+                textContent: 0,
+                duration: 2,
+                ease: "power1.inOut",
+                snap: { textContent: 1 },
+                scrollTrigger: { trigger: meter, start: "top 80%" },
+                onUpdate: function() {
+                    meter.textContent = prefix + Math.ceil(this.targets()[0].textContent) + unit;
+                }
+            });
+        });
+
+        // Timeline items fade-in
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            gsap.from(item, {
+                opacity: 0,
+                x: item.classList.contains('lg:mr-auto') ? -100 : 100,
+                duration: 1,
+                scrollTrigger: { trigger: item, start: "top 85%" }
+            });
+        });
+
+        // Rocket progress bar
+        gsap.to('#progress-rocket', {
+            bottom: 'calc(100% - 2rem)',
+            ease: 'none',
+            scrollTrigger: { trigger: document.body, start: 'top top', end: 'bottom bottom', scrub: true }
+        });
+    },
+    initAll: () => {
+        Animations.initLandingAnimation();
+        Animations.initSkillsGalaxy();
+        Animations.initScrollAnimations();
+    }
+};
+
+
+// --- MODULE: EVENT LISTENERS ---
+const Events = {
+    setupSkillsGalaxyMouseEvents: () => {
+        const s = state.three.skills;
+        const tooltip = document.getElementById('skill-tooltip');
+
+        const onMouseMove = (event) => {
+            event.preventDefault();
+            const rect = s.renderer.domElement.getBoundingClientRect();
+            s.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+            s.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+
+            s.raycaster.setFromCamera(s.mouse, s.camera);
+            const intersects = s.raycaster.intersectObjects(s.skillsGroup.children.filter(c => c.visible));
+
+            if (intersects.length > 0) {
+                if (s.INTERSECTED !== intersects[0].object) {
+                    if (s.INTERSECTED) s.INTERSECTED.material.color.setHex(s.INTERSECTED.currentHex);
+                    s.INTERSECTED = intersects[0].object;
+                    s.INTERSECTED.currentHex = s.INTERSECTED.material.color.getHex();
+                    s.INTERSECTED.material.color.setHex(0xffffff);
+                    tooltip.style.display = 'block';
+                    tooltip.textContent = s.INTERSECTED.userData.name;
+                }
+                tooltip.style.left = (event.clientX + 15) + 'px';
+                tooltip.style.top = (event.clientY + 15) + 'px';
+            } else {
+                if (s.INTERSECTED) s.INTERSECTED.material.color.setHex(s.INTERSECTED.currentHex);
+                s.INTERSECTED = null;
+                tooltip.style.display = 'none';
+            }
+        };
+        window.addEventListener('mousemove', onMouseMove, false);
+    },
+    setupAll: () => {
+        Events.setupSkillsGalaxyMouseEvents();
+    }
+};
+
+
+// --- MODULE: MAIN APPLICATION BOOTSTRAP ---
+async function main() {
+    try {
+        await loadData();
+        DOM.populateAll();
+        Animations.initAll();
+        Events.setupAll();
+    } catch (error) {
+        console.error("Application failed to initialize:", error);
+    }
+}
+
+// --- Run Application ---
+main();
