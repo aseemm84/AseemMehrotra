@@ -1,0 +1,210 @@
+{
+  "personalInfo": {
+    "name": "Aseem Mehrotra",
+    "email": "aseem.mehrotra1984@outlook.com",
+    "phone": "00971508212454",
+    "linkedin": "https://www.linkedin.com/in/aseem-mehrotra",
+    "github": "https://github.com/aseemm84",
+    "streamlit": "https://share.streamlit.io/user/aseemm84",
+    "taglines": [
+      "17+ Years of Industrial Excellence",
+      "AI & Data-Science Innovation Leader",
+      "Bridging Engineering with GenAI"
+    ]
+  },
+  "impactMeters": [
+    { "label": "Operational Downtime Reduction", "value": 75, "unit": "%" },
+    { "label": "Annual Greenhouse Gas Reduction", "value": 1319, "unit": "t CO₂" },
+    { "label": "Annual OPEX Budget Managed", "value": 300, "unit": "K", "prefix": "$" },
+    { "label": "MSc Academic Rank", "value": 5, "unit": "%", "prefix": "Top " },
+    { "label": "GenAI & Data Apps Deployed", "value": 8, "unit": "+" }
+  ],
+  "timeline": [
+    {
+      "strand": "industrial",
+      "company": "KBR Inc. (for ADNOC Gas)",
+      "role": "Senior Instrumentation Construction Engineer",
+      "period": "Feb 2025 - Present",
+      "location": "Abu Dhabi",
+      "points": [
+        "Validated design integrity by scrutinizing engineering documents for ethane and CO2 recovery projects.",
+        "Optimized fire & gas system design by reviewing and validating control and trip philosophy.",
+        "Improved reliability by verifying data sheets and cross-sectional drawings for over 500 control and safety valves.",
+        "Strengthened OT security by verifying the OT Security Hierarchical Purdue Model Structure.",
+        "Elevated engineering excellence by crafting and implementing technical specifications, engineering philosophies and guidelines.",
+        "Proactively reduced project risks by conducting thorough Risk Assessment exercises for various greenfield activities.",
+        "Executed project tie-ins flawlessly by meticulously planning and coordinating activities according to approved documentations."
+      ]
+    },
+    {
+      "strand": "data-science",
+      "company": "Wholesale Brand Management",
+      "role": "PowerBI Analyst",
+      "period": "Jun 2024 - Aug 2024",
+      "location": "Alloa, Scotland",
+      "points": [
+        "Spearheaded the organization's data reporting process, automating data integration with Microsoft Fabric and Power BI.",
+        "Engineered a data pipeline in Microsoft Fabric to cleanse and integrate SharePoint data with Power BI, reducing manual effort.",
+        "Launched a comprehensive performance management system in Power BI using Power Query and DAX.",
+        "Conveyed KPIs, sales trends, and customer insights through interactive and user-friendly dashboards.",
+        "Architected a Power BI solution for tracking digital marketing effectiveness and financial performance.",
+        "Boosted data-driven decision making by automating daily dashboard refreshes for the CEO office and department heads."
+      ]
+    },
+    {
+      "strand": "data-science",
+      "company": "University of Stirling",
+      "role": "MSc, Data Science for Business (Distinction)",
+      "period": "Sep 2023 - Nov 2024",
+      "location": "Scotland, UK",
+      "points": [
+        "Graduated with Distinction, ranking in the top 5% of 150 students.",
+        "Best Scorer in Business Consulting (80%) and Statistics with R (100%).",
+        "Led the winning team for the 'Lego Business Game of Supply Chain Optimization'.",
+        "Volunteered as a Student Academic Representative for the Statistics with R module.",
+        "Selected for a competitive 12-week industrial live project with WBM Ltd.",
+        "Conducted sentiment analysis for e-commerce user reviews using NLP in Python.",
+        "Constructed an NLP solution for fake news identification using Spacy and an XGB classifier."
+      ]
+    },
+    {
+      "strand": "industrial",
+      "company": "ADNOC GAS",
+      "role": "Instrumentation & Control Engineer",
+      "period": "Apr 2015 - Aug 2023",
+      "location": "Abu Dhabi",
+      "points": [
+        "Awarded 'Exceeded Expectations' for managing turnarounds with 100% safety compliance during the pandemic.",
+        "Oversaw team operations for a team of 15, including work allocation, performance management, and skills growth.",
+        "Initiated weekly knowledge-sharing sessions on best practices for technical know-how, asset reliability & safety, and risk analysis.",
+        "Mentored 5 new employees providing guidance on plant safety, control systems, budget preparation, and reliability improvement.",
+        "Fast tracked the training period by 15-18% by developing an Instrumentation Training Manual and fortnightly newsletters.",
+        "Ensured safety compliance by conducting HAZOP study for 100+ safety-critical assets.",
+        "Heightened sulfur recovery plant safety by 8-10% by formulating risk mitigation strategies for over 10,000 assets.",
+        "Depressed downtime and operational disturbances by 75% in air preheater, bringing failures from 8 to 2 per year.",
+        "Minimized energy consumption by 8-12% in combustion air blowers by optimizing blow-off valve performance.",
+        "Reduced greenhouse gas emissions by 1,319 tons of CO2 annually by spearheading a sustainability initiative.",
+        "Managed a $300K annual OPEX budget for various reliability projects.",
+        "Reduced downtime by 15-20% by modernizing the obsolete temperature monitoring system for the acid gas reaction furnace.",
+        "Lowered failure rates by 20-25% by leading an upgrade project for 100+ critical control valve positioners.",
+        "Amplified work efficiency by 12-15% (saving 50 hrs/week) by optimizing resource allocation and streamlining processes.",
+        "Generated $50K in recurring annual cost savings through inventory optimization and asset reliability improvement initiatives."
+      ]
+    },
+    {
+      "strand": "industrial",
+      "company": "Reliance Industries Limited",
+      "role": "Senior Instrumentation Reliability Engineer",
+      "period": "Nov 2006 - Apr 2015",
+      "location": "Gujarat, India",
+      "points": [
+        "Awarded 'Significantly Exceeded Expectations' (highest rating) for three successive years (2011-2013).",
+        "Elevated system reliability and diagnostic capabilities by revamping a safety critical hardwired Emergency Shutdown System.",
+        "Achieved successful plant commissioning by contributing to the commissioning activities of the SBR/PBR plant.",
+        "Optimized design quality by reviewing design documents and databases against industry standards and guidelines.",
+        "Improved testing efficiency by developing method statements for commissioning test procedures of field instrumentation.",
+        "Ensured system reliability by leading Factory Acceptance Testing (FAT) and Site Acceptance Testing (SAT) of system graphics.",
+        "Decreased polyethylene storage area downtime by 20% by modernizing the storage tanks level and pressure monitoring system.",
+        "Led the digital transformation project for renovating legacy pneumatic measurement systems to modern digitized systems."
+      ]
+    },
+    {
+      "strand": "industrial",
+      "company": "Uttar Pradesh Technical University",
+      "role": "BTech, Instrumentation Engineering",
+      "period": "Aug 2002 - Jul 2006",
+      "location": "Lucknow, India",
+      "points": [
+        "Awarded Institute Gold Medalist for the class of 2006 (Moradabad Institute of Technology).",
+        "Graduated with a grade of 74%."
+      ]
+    }
+  ],
+  "skills": [
+    { "name": "Python", "category": "Data Science", "proficiency": 0.95 },
+    { "name": "GenAI & LLMs", "category": "Data Science", "proficiency": 0.9 },
+    { "name": "Power BI", "category": "Data Science", "proficiency": 0.9 },
+    { "name": "SQL", "category": "Data Science", "proficiency": 0.85 },
+    { "name": "Machine Learning", "category": "Data Science", "proficiency": 0.88 },
+    { "name": "Natural Language Processing", "category": "Data Science", "proficiency": 0.85 },
+    { "name": "Statistical Analysis", "category": "Data Science", "proficiency": 0.9 },
+    { "name": "Time Series Forecasting", "category": "Data Science", "proficiency": 0.8 },
+    { "name": "Neural Networks (ANN)", "category": "Data Science", "proficiency": 0.8 },
+    { "name": "XGBoost / AdaBoost", "category": "Data Science", "proficiency": 0.82 },
+    { "name": "Random Forest", "category": "Data Science", "proficiency": 0.8 },
+    { "name": "Decision Trees", "category": "Data Science", "proficiency": 0.8 },
+    { "name": "Clustering", "category": "Data Science", "proficiency": 0.78 },
+    { "name": "Linear/Logistic Regression", "category": "Data Science", "proficiency": 0.85 },
+    { "name": "Tableau", "category": "Data Science", "proficiency": 0.75 },
+    { "name": "Azure OpenAI", "category": "Data Science", "proficiency": 0.8 },
+    { "name": "Advanced Excel", "category": "Data Science", "proficiency": 0.9 },
+    { "name": "Instrumentation & Control", "category": "Engineering", "proficiency": 1.0 },
+    { "name": "Risk Management", "category": "Engineering", "proficiency": 0.98 },
+    { "name": "Reliability Engineering", "category": "Engineering", "proficiency": 0.97 },
+    { "name": "HAZOP", "category": "Engineering", "proficiency": 0.95 },
+    { "name": "Team Leadership", "category": "Leadership", "proficiency": 0.95 },
+    { "name": "Project Management", "category": "Leadership", "proficiency": 0.9 },
+    { "name": "Stakeholder Management", "category": "Leadership", "proficiency": 0.92 },
+    { "name": "Process Optimization", "category": "Leadership", "proficiency": 0.88 }
+  ],
+  "projects": [
+    {
+      "name": "ScienceGPT",
+      "description": "A GenAI-powered app to make scientific knowledge accessible and understandable.",
+      "liveUrl": "https://science-gpt.streamlit.app",
+      "codeUrl": "https://github.com/aseemm84/science-gpt"
+    },
+    {
+      "name": "LoShuGrid",
+      "description": "An analytical tool for Lo Shu Grid analysis, blending ancient numerology with modern tech.",
+      "liveUrl": "https://loshugrid.streamlit.app",
+      "codeUrl": "https://github.com/aseemm84/LoShuGrid"
+    },
+    {
+      "name": "Resume-Checker",
+      "description": "An AI tool that evaluates resumes, providing strengths and areas for improvement.",
+      "liveUrl": "https://genai-resume-checker.streamlit.app",
+      "codeUrl": "https://github.com/aseemm84/Resume-Checker"
+    },
+    {
+      "name": "Business-Intelligence-App",
+      "description": "An interactive BI dashboard for data exploration and uncovering business insights.",
+      "liveUrl": "https://data-bi-tool.streamlit.app",
+      "codeUrl": "https://github.com/aseemm84/Business-Intelligence-App"
+    },
+    {
+      "name": "Social Media Content Generator",
+      "description": "Created a GenAI powered web application that generates audience-specific customized social media marketing content.",
+      "liveUrl": "#",
+      "codeUrl": "#"
+    },
+    {
+      "name": "Luxury Car Dealership Dashboard",
+      "description": "Designed interactive Sales & Revenues dashboards and reports in Power BI for a luxury car dealership in Stirling, Scotland.",
+      "liveUrl": "#",
+      "codeUrl": "#"
+    },
+    {
+      "name": "NHS Scotland Efficiency Report",
+      "description": "Developed Power BI reports for NHS Scotland to improve the dermatology department efficiency in the Forth Valley area.",
+      "liveUrl": "#",
+      "codeUrl": "#"
+    },
+    {
+      "name": "Customer Satisfaction Prediction Model",
+      "description": "Developed an ANN model to predict customer satisfaction based on various parameters, achieving 95.22% accuracy.",
+      "liveUrl": "#",
+      "codeUrl": "#"
+    }
+  ],
+  "certifications": [
+    { "name": "Generative AI for Business with Microsoft Azure OpenAI", "issuer": "Great Learning & Microsoft", "url": "#" },
+    { "name": "Microsoft Certified: Power BI Data Analyst Associate", "issuer": "Microsoft", "url": "#" },
+    { "name": "Business Analytics Specialization", "issuer": "Coursera & University of Illinois", "url": "#" },
+    { "name": "Machine Learning Specialization", "issuer": "Coursera & Stanford University", "url": "#" },
+    { "name": "Data Science and Machine Learning: Making Data-Driven Decisions", "issuer": "MIT Schwarzman College of Computing", "url": "#" },
+    { "name": "Supply Chain Certification (CTL.CFX)", "issuer": "MIT xPRO", "url": "#" },
+    { "name": "Credential of Readiness (CORE)", "issuer": "Harvard Business School Online", "url": "#" },
+    { "name": "NEBOSH Int'l General Certificate", "issuer": "NEBOSH", "url": "#" }
+  ]
+}
