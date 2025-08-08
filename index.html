@@ -3,216 +3,237 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aseem Mehrotra // Holo-Portfolio</title>
+    <title>Aseem Mehrotra | Professional Portfolio</title>
     <link rel="stylesheet" href="./style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
 </head>
-<body>
-    <!-- Preloader -->
+<body class="dark-theme"> <!-- Default theme is dark -->
+
+    <!-- PRELOADER -->
     <div id="preloader">
-        <div class="loader-text">INITIALIZING INTERFACE...</div>
-        <div class="loader-subtext">Compiling Neuro-Links...</div>
-        <div class="loader-bar-container">
-            <div class="loader-bar"></div>
+        <div class="loader-text">Loading Portfolio...</div>
+        <div class="progress-bar-container">
+            <div id="progress-bar"></div>
         </div>
     </div>
 
-    <!-- Main Container -->
-    <div id="main-container" class="hidden">
-        <canvas id="matrix-canvas"></canvas>
-        <div class="overlay"></div>
-        <div class="scanline"></div>
-
-        <header class="main-header">
-            <div class="profile-container">
-                <div class="profile-hex-container">
-                    <div class="profile-hex">
-                        <img src="https://placehold.co/200x200/020e1a/64ffda?text=AM" alt="Aseem Mehrotra" class="profile-pic" onerror="this.onerror=null;this.src='https://placehold.co/200x200/020e1a/64ffda?text=AM';">
-                    </div>
-                </div>
-                <h1 class="glitch" data-text="ASEEM MEHROTRA">ASEEM MEHROTRA</h1>
-                <p id="typing-text" class="tagline"></p>
-            </div>
-            <nav class="main-nav">
-                <a href="#about" class="nav-item" data-section="about"><span>01</span>PROFILE</a>
-                <a href="#experience" class="nav-item" data-section="experience"><span>02</span>EXPERIENCE</a>
-                <a href="#projects" class="nav-item" data-section="projects"><span>03</span>PROJECTS</a>
-                <a href="#skills" class="nav-item" data-section="skills"><span>04</span>SKILLS</a>
-                <a href="#education" class="nav-item" data-section="education"><span>05</span>EDUCATION</a>
-            </nav>
+    <!-- MAIN CONTENT -->
+    <div id="main-content" class="hidden">
+        <header>
+            <button id="theme-toggle">
+                <!-- SVG icons will be injected by JS -->
+            </button>
         </header>
 
-        <main id="content-display">
-            <!-- Sections will be dynamically loaded here -->
+        <main class="container">
+            <section class="intro">
+                <h1>Aseem Mehrotra</h1>
+                <h2>Instrumentation & Control Engineer | Data Science & AI Specialist</h2>
+            </section>
+
+            <section class="kpi-cards">
+                <div class="kpi-card">
+                    <h3>17+</h3>
+                    <p>Years of Experience</p>
+                </div>
+                <div class="kpi-card">
+                    <h3>MSc Distinction</h3>
+                    <p>Data Science (Top 5%)</p>
+                </div>
+                <div class="kpi-card">
+                    <h3>-1319 Tons</h3>
+                    <p>Annual CO2 Reduction</p>
+                </div>
+                <div class="kpi-card">
+                    <h3>Gold Medalist</h3>
+                    <p>BTech Instrumentation Eng.</p>
+                </div>
+            </section>
+
+            <nav class="main-nav">
+                <button class="nav-button" data-section="summary">Profile Summary</button>
+                <button class="nav-button" data-section="experience">Experience</button>
+                <button class="nav-button" data-section="education">Education</button>
+                <button class="nav-button" data-section="projects">Projects</button>
+                <button class="nav-button" data-section="skills">Skills</button>
+                <button class="nav-button" data-section="certifications">Certifications</button>
+            </nav>
         </main>
-
-        <footer>
-            <p>&copy; 2025 Aseem Mehrotra. All data encrypted and secured.</p>
-        </footer>
-
     </div>
 
-    <!-- Section Templates (hidden) -->
-    <template id="template-about">
-        <section class="content-section" id="about">
-            <h2 class="section-title" data-text="[Profile Synthesis]"><span>[Profile Synthesis]</span></h2>
-            <div class="section-content">
-                <p>A results-driven professional with a rich 17-year history in the oil and gas industry, specializing in Instrumentation & Control engineering. My journey has been defined by delivering tangible outcomes in risk management, operational efficiency, and safety compliance. Recently, I have pivoted my expertise towards the exciting world of Data Science and Generative AI, graduating with Distinction in an MSc in Data Science for Business. I am passionate about leveraging data to solve complex problems and drive strategic decisions, merging deep industry knowledge with cutting-edge analytical skills.</p>
-            </div>
-        </section>
+    <!-- MODAL FOR DETAILS -->
+    <div id="modal-container" class="hidden">
+        <div id="modal-content">
+            <button id="modal-close-btn">&times;</button>
+            <div id="modal-body"></div>
+        </div>
+    </div>
+
+    <!-- TEMPLATES FOR MODAL CONTENT -->
+
+    <!-- Profile Summary Template -->
+    <template id="template-summary">
+        <h2>Profile Summary</h2>
+        <p>Results-driven professional with over 17 years of experience in the oil and gas industry, delivering tangible outcomes in risk management, operational efficiency, and safety compliance. Excel at reliability enhancement and optimized commissioning processes through expertise in Instrumentation and Control engineering. Recently pivoted to Data Science, graduating with Distinction from a Master's program and skilled in data analysis, visualization, machine learning, and GenAI to drive business value.</p>
     </template>
 
+    <!-- Experience Template -->
     <template id="template-experience">
-        <section class="content-section" id="experience">
-            <h2 class="section-title" data-text="[Career Trajectory]"><span>[Career Trajectory]</span></h2>
-            <div class="section-content">
-                <div class="timeline">
-                    <!-- KBR -->
-                    <div class="timeline-item">
-                        <div class="timeline-node"></div>
-                        <div class="timeline-content">
-                            <h3>KBR Inc. (ADNOC Gas) <span class="date">[Feb 2025 - Present]</span></h3>
-                            <p class="role">Senior Instrumentation Construction Engineer</p>
-                            <ul>
-                                <li>Validated design integrity for Ethane and CO2 Recovery Projects.</li>
-                                <li>Optimized fire & gas system design, enhancing safety protocols.</li>
-                                <li>Strengthened OT security by verifying the Purdue Model Structure.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- ADNOC GAS -->
-                    <div class="timeline-item">
-                        <div class="timeline-node"></div>
-                        <div class="timeline-content">
-                            <h3>ADNOC GAS, Abu Dhabi <span class="date">[Apr 2015 - Aug 2023]</span></h3>
-                            <p class="role">Instrumentation & Control Engineer</p>
-                            <ul>
-                                <li>Awarded "Exceeded Expectations" for managing turnarounds with 100% safety compliance.</li>
-                                <li>Led a team of 15, fostering skill growth and knowledge sharing.</li>
-                                <li>Spearheaded a sustainability initiative, reducing CO2 emissions by 1319 tons annually.</li>
-                                <li>Reduced downtime by 15-20% by modernizing critical temperature monitoring systems.</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <!-- RELIANCE -->
-                    <div class="timeline-item">
-                        <div class="timeline-node"></div>
-                        <div class="timeline-content">
-                            <h3>RELIANCE INDUSTRIES LTD. <span class="date">[Nov 2006 - Apr 2015]</span></h3>
-                            <p class="role">Senior Instrumentation Reliability Engineer</p>
-                            <ul>
-                                <li>Awarded "Significantly Exceeded Expectations" for three consecutive years.</li>
-                                <li>Elevated system reliability by revamping a critical Emergency Shutdown System.</li>
-                                <li>Led a digital transformation project, modernizing legacy measurement systems.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+        <h2>Work Experience</h2>
+        <div class="timeline">
+            <div class="timeline-item">
+                <h3>Senior Instrumentation Construction Engineer</h3>
+                <p><strong>KBR Inc. (for ADNOC Gas)</strong> | Abu Dhabi | Feb 2025 - Present</p>
+                <ul>
+                    <li>Validated design integrity by scrutinizing engineering documents for Ethane & CO2 Recovery Projects.</li>
+                    <li>Optimized fire & gas system design by reviewing and validating control and trip philosophy.</li>
+                    <li>Improved reliability by reviewing data sheets for over 500 control and safety valves.</li>
+                    <li>Strengthened OT security by verifying the Purdue Model Structure.</li>
+                    <li>Elevated engineering excellence by crafting and implementing technical specifications and guidelines.</li>
+                    <li>Proactively reduced project risks by conducting thorough Risk Assessment exercises.</li>
+                    <li>Executed project tie-ins flawlessly by meticulously planning and coordinating activities.</li>
+                </ul>
             </div>
-        </section>
-    </template>
-    
-    <template id="template-projects">
-        <section class="content-section" id="projects">
-            <h2 class="section-title" data-text="[Project Holo-Deck]"><span>[Project Holo-Deck]</span></h2>
-            <div class="section-content">
-                <div class="project-grid">
-                    <div class="project-card">
-                        <div class="project-card-inner">
-                            <h3>ScienceGPT</h3>
-                            <p>An AI-powered assistant for scientific queries.</p>
-                            <div class="project-links">
-                                <a href="https://github.com/aseem-mehrotra/ScienceGPT" target="_blank">Repository</a>
-                                <a href="https://science-gpt.streamlit.app" target="_blank">Live App</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-card-inner">
-                            <h3>LoShuGrid</h3>
-                            <p>A web application exploring the mystical Lo Shu Grid.</p>
-                            <div class="project-links">
-                                <a href="https://github.com/aseem-mehrotra/LoShuGrid" target="_blank">Repository</a>
-                                <a href="https://loshugrid.streamlit.app" target="_blank">Live App</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-card-inner">
-                            <h3>Resume-Checker</h3>
-                            <p>A GenAI tool to evaluate and provide feedback on resumes.</p>
-                            <div class="project-links">
-                                <a href="https://github.com/aseem-mehrotra/Resume-Checker" target="_blank">Repository</a>
-                                <a href="https://genai-resume-checker.streamlit.app" target="_blank">Live App</a>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-card-inner">
-                            <h3>BI App</h3>
-                            <p>A Business Intelligence tool for data analysis and visualization.</p>
-                            <div class="project-links">
-                                <a href="https://github.com/aseem-mehrotra/Business-Intelligence-App" target="_blank">Repository</a>
-                                <a href="https://data-bi-tool.streamlit.app" target="_blank">Live App</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="timeline-item">
+                <h3>Instrumentation & Control Engineer</h3>
+                <p><strong>ADNOC GAS</strong> | Abu Dhabi | Apr 2015 - Aug 2023</p>
+                <ul>
+                    <li>Awarded "Exceeded Expectations" for managing turnarounds with 100% safety compliance during the pandemic.</li>
+                    <li>Oversaw a team of 15, managing work allocation, performance, and skills growth.</li>
+                    <li>Mentored 5 new employees, fast-tracking their training period by 15-18%.</li>
+                    <li>Ensured safety compliance by conducting HAZOP studies for 100+ safety-critical assets.</li>
+                    <li>Heightened plant safety by 8-10% by formulating risk mitigation strategies for over 10,000 assets.</li>
+                    <li>Spearheaded a sustainability initiative that reduced greenhouse gas emissions by 1319 tons of CO2 annually.</li>
+                    <li>Maximized plant reliability by strategically allocating a $300K annual OPEX budget.</li>
+                    <li>Reduced downtime by 15-20% by modernizing an obsolete temperature monitoring system.</li>
+                    <li>Amplified work efficiency by 12-15% by optimizing resource allocation and streamlining processes.</li>
+                    <li>Generated $50K in recurring annual cost savings through inventory optimization.</li>
+                </ul>
             </div>
-        </section>
-    </template>
-    
-    <template id="template-skills">
-        <section class="content-section" id="skills">
-            <h2 class="section-title" data-text="[Core Competencies]"><span>[Core Competencies]</span></h2>
-            <div class="section-content">
-                <div class="skills-grid">
-                    <div class="skill-category">
-                        <h3>Instrumentation & Control</h3>
-                        <div class="skill-item"><div class="skill-bar" style="width: 95%;"></div><span>Risk Management (HAZOP)</span></div>
-                        <div class="skill-item"><div class="skill-bar" style="width: 90%;"></div><span>Reliability Engineering</span></div>
-                        <div class="skill-item"><div class="skill-bar" style="width: 85%;"></div><span>Asset Management</span></div>
-                        <div class="skill-item"><div class="skill-bar" style="width: 88%;"></div><span>Process Optimization</span></div>
-                    </div>
-                    <div class="skill-category">
-                        <h3>Data Science & AI</h3>
-                        <div class="skill-item"><div class="skill-bar" style="width: 92%;"></div><span>Python & SQL</span></div>
-                        <div class="skill-item"><div class="skill-bar" style="width: 90%;"></div><span>Power BI & Tableau</span></div>
-                        <div class="skill-item"><div class="skill-bar" style="width: 85%;"></div><span>Machine Learning</span></div>
-                        <div class="skill-item"><div class="skill-bar" style="width: 89%;"></div><span>Generative AI</span></div>
-                    </div>
-                </div>
+            <div class="timeline-item">
+                <h3>Senior Instrumentation Reliability Engineer</h3>
+                <p><strong>RELIANCE INDUSTRIES LIMITED</strong> | Gujarat, India | Nov 2006 - Apr 2015</p>
+                <ul>
+                    <li>Awarded "Significantly Exceeded Expectations" (Highest rating) for three successive years (2011-2013).</li>
+                    <li>Elevated system reliability by revamping a legacy hardwired Emergency Shutdown System to a modern IEC 61511 compliant system.</li>
+                    <li>Contributed to the successful commissioning of the SBR/PBR plant.</li>
+                    <li>Led Factory Acceptance Testing (FAT) and Site Acceptance Testing (SAT) of system graphics.</li>
+                    <li>Decreased storage area downtime by 20% by leading a digital transformation project from pneumatic to modern digitized systems.</li>
+                </ul>
             </div>
-        </section>
+        </div>
     </template>
 
+    <!-- Education Template -->
     <template id="template-education">
-        <section class="content-section" id="education">
-            <h2 class="section-title" data-text="[Training & Certifications]"><span>[Training & Certifications]</span></h2>
-            <div class="section-content">
-                <div class="education-grid">
-                    <div class="education-item">
-                        <h3>MSc Data Science for Business</h3>
-                        <p>University of Stirling, Scotland</p>
-                        <span>Grade: Distinction (Top 5%)</span>
-                    </div>
-                    <div class="education-item">
-                        <h3>BTech Instrumentation Eng.</h3>
-                        <p>Uttar Pradesh Technical University</p>
-                        <span>Institute Gold Medalist</span>
-                    </div>
+        <h2>Education</h2>
+        <div class="education-item">
+            <h3>Master of Science in Data Science for Business</h3>
+            <p><strong>University of Stirling, Scotland</strong> | Grade: <strong>Distinction</strong> (Top 5% of 150 students)</p>
+            <ul>
+                <li>Best Scorer in Business Consulting (80%) and Statistics with R (100%).</li>
+                <li>Led the winning team for the "Lego Business Game of Supply Chain Optimization".</li>
+                <li>Selected for a 12-week industrial project with WBM Ltd, launching a Power BI performance management system.</li>
+            </ul>
+        </div>
+        <div class="education-item">
+            <h3>Bachelor of Technology in Instrumentation Engineering</h3>
+            <p><strong>Uttar Pradesh Technical University, India</strong> | Grade: <strong>Institute Gold Medalist</strong> (74%)</p>
+        </div>
+    </template>
+
+    <!-- Projects Template -->
+    <template id="template-projects">
+        <h2>Projects</h2>
+        <div class="project-grid">
+            <div class="project-card">
+                <h3>ScienceGPT</h3>
+                <p>An AI-powered assistant for scientific queries.</p>
+                <div class="project-links">
+                    <a href="https://github.com/aseemm84/science-gpt" target="_blank">GitHub Repo</a>
+                    <a href="https://science-gpt.streamlit.app" target="_blank">Live App</a>
                 </div>
-                 <h3 class="subsection-title">Certifications</h3>
-                 <div class="cert-grid">
-                    <a href="https://www.mygreatlearning.com/certificate/SGNACEDJ" target="_blank">Azure GenAI</a>
-                    <a href="https://learn.microsoft.com/en-us/users/aseemmehrotra-4429/credentials/e170783fa75ca2f1" target="_blank">Power BI Analyst</a>
-                    <a href="https://olympus1.mygreatlearning.com/certificate/MSDGMXNJ" target="_blank">MIT Supply Chain</a>
-                    <a href="https://credentials.edx.org/credentials/7ab177ff4fe14e858168c2fd8c2de69d/" target="_blank">Harvard CORe</a>
-                 </div>
             </div>
-        </section>
+            <div class="project-card">
+                <h3>LoShu Grid Analysis</h3>
+                <p>A web application exploring the mystical Lo Shu Grid.</p>
+                <div class="project-links">
+                    <a href="https://github.com/aseemm84/LoShuGrid" target="_blank">GitHub Repo</a>
+                    <a href="https://loshugrid.streamlit.app" target="_blank">Live App</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3>GenAI Resume-Checker</h3>
+                <p>A tool to evaluate and provide feedback on resumes.</p>
+                <div class="project-links">
+                    <a href="https://github.com/aseemm84/Resume-Checker" target="_blank">GitHub Repo</a>
+                    <a href="https://genai-resume-checker.streamlit.app" target="_blank">Live App</a>
+                </div>
+            </div>
+            <div class="project-card">
+                <h3>Business Intelligence App</h3>
+                <p>A BI tool for data analysis and visualization.</p>
+                <div class="project-links">
+                    <a href="https://github.com/aseemm84/Business-Intelligence-App" target="_blank">GitHub Repo</a>
+                    <a href="https://data-bi-tool.streamlit.app" target="_blank">Live App</a>
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <!-- Skills Template -->
+    <template id="template-skills">
+        <h2>Core Competencies</h2>
+        <div class="skills-container">
+            <div class="skill-category">
+                <h3>Data Science & Analytics</h3>
+                <ul>
+                    <li>Python (Pandas, Scikit-learn)</li>
+                    <li>SQL</li>
+                    <li>Power BI (DAX, Power Query)</li>
+                    <li>Tableau</li>
+                    <li>Machine Learning</li>
+                    <li>Generative AI (Prompt Engineering)</li>
+                    <li>Advanced Excel</li>
+                    <li>Data Analysis & Visualization</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Instrumentation & Control</h3>
+                <ul>
+                    <li>Risk Management (HAZOP, SIL)</li>
+                    <li>Reliability Engineering</li>
+                    <li>Asset Management</li>
+                    <li>Process Optimization</li>
+                    <li>Root Cause Analysis</li>
+                    <li>Safety Integrity Studies</li>
+                </ul>
+            </div>
+            <div class="skill-category">
+                <h3>Professional & Management</h3>
+                <ul>
+                    <li>Project Management</li>
+                    <li>Leadership & Team Management</li>
+                    <li>Stakeholder Management</li>
+                    <li>Performance Management</li>
+                    <li>KPI Development</li>
+                </ul>
+            </div>
+        </div>
     </template>
     
+    <!-- Certifications Template -->
+    <template id="template-certifications">
+        <h2>Certifications</h2>
+        <div class="cert-list">
+            <a href="https://www.mygreatlearning.com/certificate/SGNACEDJ" target="_blank">Generative AI for Business with Microsoft Azure</a>
+            <a href="https://learn.microsoft.com/en-us/users/aseemmehrotra-4429/credentials/e170783fa75ca2f1" target="_blank">Microsoft Certified: Power BI Data Analyst Associate</a>
+            <a href="https://olympus1.mygreatlearning.com/certificate/MSDGMXNJ" target="_blank">MITx: Supply Chain Analytics</a>
+            <a href="https://credentials.edx.org/credentials/7ab177ff4fe14e858168c2fd8c2de69d/" target="_blank">Harvard Business School Online: CORe</a>
+            <a href="#" onclick="return false;">NEBOSH International General Certificate</a>
+        </div>
+    </template>
+
     <script src="./script.js"></script>
 </body>
 </html>
