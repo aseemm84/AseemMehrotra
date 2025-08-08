@@ -1,106 +1,83 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // --- ELEMENTS ---
     const preloader = document.getElementById('preloader');
-    const mainContainer = document.getElementById('main-container');
-    
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            preloader.style.opacity = '0';
-            preloader.style.transition = 'opacity 0.5s ease';
-            preloader.addEventListener('transitionend', () => {
-                preloader.style.display = 'none';
-                mainContainer.classList.remove('hidden');
-                mainContainer.style.opacity = '1';
-                mainContainer.style.transition = 'opacity 0.5s ease';
-                startTyping();
-                loadContent('about'); 
-                document.querySelector('.nav-item[data-section="about"]').classList.add('active');
-            });
-        }, 2000);
-    });
+    const progressBar = document.getElementById('progress-bar');
+    const mainContent = document.getElementById('main-content');
+    const themeToggleButton = document.getElementById('theme-toggle');
+    const navButtons = document.querySelectorAll('.nav-button');
+    const modalContainer = document.getElementById('modal-container');
+    const modalBody = document.getElementById('modal-body');
+    const modalCloseBtn = document.getElementById('modal-close-btn');
 
-    const typingTextElement = document.getElementById('typing-text');
-    const textToType = "Bridging 17+ Years of Industrial Expertise with Data Science & AI";
-    let charIndex = 0;
+    // --- THEME SETUP ---
+    const sunIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.25a.75.75 0 0 1 .75.75v2.25a.75.75 0 0 1-1.5 0V3a.75.75 0 0 1 .75-.75ZM7.5 12a4.5 4.5 0 1 1 9 0 4.5 4.5 0 0 1-9 0ZM18.894 6.106a.75.75 0 0 1 0 1.06l-1.591 1.59a.75.75 0 1 1-1.06-1.06l1.59-1.59a.75.75 0 0 1 1.06 0ZM21.75 12a.75.75 0 0 1-.75.75h-2.25a.75.75 0 0 1 0-1.5H21a.75.75 0 0 1 .75.75ZM17.836 17.894a.75.75 0 0 1 1.06 0l1.59 1.59a.75.75 0 1 1-1.06 1.06l-1.59-1.59a.75.75 0 0 1 0-1.06ZM12 21.75a.75.75 0 0 1-.75-.75v-2.25a.75.75 0 0 1 1.5 0V21a.75.75 0 0 1-.75.75ZM5.106 17.894a.75.75 0 0 1 0-1.06l1.59-1.591a.75.75 0 1 1 1.06 1.06l-1.59 1.59a.75.75 0 0 1-1.06 0ZM3 12a.75.75 0 0 1 .75-.75h2.25a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 12ZM6.164 6.106a.75.75 0 0 1 1.06 0l1.59 1.59a.75.75 0 1 1-1.06 1.06L6.164 7.166a.75.75 0 0 1 0-1.06Z"/></svg>`;
+    const moonIcon = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path fill-rule="evenodd" d="M9.528 1.718a.75.75 0 0 1 .162.819A8.97 8.97 0 0 0 9 6a9 9 0 0 0 9 9 8.97 8.97 0 0 0 3.463-.69a.75.75 0 0 1 .981.981A10.503 10.503 0 0 1 12 22.5C6.201 22.5 1.5 17.799 1.5 12A10.503 10.503 0 0 1 2.25 6.34a.75.75 0 0 1 .819-.162l4.942 1.346a.75.75 0 0 1 .69.981Z" clip-rule="evenodd" /></svg>`;
 
-    function startTyping() {
-        if (charIndex < textToType.length) {
-            typingTextElement.textContent += textToType.charAt(charIndex);
-            charIndex++;
-            setTimeout(startTyping, 50);
-        }
-    }
-
-    const navItems = document.querySelectorAll('.nav-item');
-    const contentDisplay = document.getElementById('content-display');
-
-    navItems.forEach(item => {
-        item.addEventListener('click', (e) => {
-            e.preventDefault();
-            const sectionId = item.getAttribute('data-section');
-            
-            navItems.forEach(nav => nav.classList.remove('active'));
-            item.classList.add('active');
-            
-            loadContent(sectionId);
-        });
-    });
-
-    function loadContent(sectionId) {
-        const template = document.getElementById(`template-${sectionId}`);
-        if (template) {
-            contentDisplay.innerHTML = '';
-            const clone = template.content.cloneNode(true);
-            const sectionElement = clone.querySelector('.content-section');
-            contentDisplay.appendChild(clone);
-            sectionElement.style.display = 'block';
-        }
-    }
-
-    const canvas = document.getElementById('matrix-canvas');
-    const ctx = canvas.getContext('2d');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
-    const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    const nums = '0123456789';
-    const alphabet = katakana + latin + nums;
-
-    const fontSize = 16;
-    let columns = canvas.width / fontSize;
-    const rainDrops = [];
-
-    for (let x = 0; x < columns; x++) {
-        rainDrops[x] = 1;
-    }
-
-    const drawMatrix = () => {
-        ctx.fillStyle = 'rgba(2, 12, 23, 0.05)';
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        ctx.fillStyle = '#64ffda';
-        ctx.font = fontSize + 'px monospace';
-
-        for (let i = 0; i < rainDrops.length; i++) {
-            const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
-            ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
-
-            if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                rainDrops[i] = 0;
-            }
-            rainDrops[i]++;
+    const applyTheme = (theme) => {
+        if (theme === 'light') {
+            document.body.classList.add('light-theme');
+            document.body.classList.remove('dark-theme');
+            themeToggleButton.innerHTML = moonIcon;
+        } else {
+            document.body.classList.add('dark-theme');
+            document.body.classList.remove('light-theme');
+            themeToggleButton.innerHTML = sunIcon;
         }
     };
 
-    let matrixInterval = setInterval(drawMatrix, 33);
-    
-    window.addEventListener('resize', () => {
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-        columns = canvas.width / fontSize;
-        for (let x = 0; x < columns; x++) {
-            rainDrops[x] = 1;
+    // Check for saved theme in localStorage
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+
+    themeToggleButton.addEventListener('click', () => {
+        const newTheme = document.body.classList.contains('dark-theme') ? 'light' : 'dark';
+        applyTheme(newTheme);
+        localStorage.setItem('theme', newTheme);
+    });
+
+    // --- PRELOADER LOGIC ---
+    window.addEventListener('load', () => {
+        progressBar.style.width = '100%';
+        setTimeout(() => {
+            preloader.style.opacity = '0';
+            preloader.addEventListener('transitionend', () => {
+                preloader.style.display = 'none';
+                mainContent.classList.remove('hidden');
+            });
+        }, 1800);
+    });
+
+    // --- MODAL LOGIC ---
+    const openModal = (sectionId) => {
+        const template = document.getElementById(`template-${sectionId}`);
+        if (template) {
+            modalBody.innerHTML = ''; // Clear previous content
+            modalBody.appendChild(template.content.cloneNode(true));
+            modalContainer.classList.remove('hidden');
+        }
+    };
+
+    const closeModal = () => {
+        modalContainer.classList.add('hidden');
+    };
+
+    navButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const sectionId = button.getAttribute('data-section');
+            openModal(sectionId);
+        });
+    });
+
+    modalCloseBtn.addEventListener('click', closeModal);
+    modalContainer.addEventListener('click', (e) => {
+        if (e.target === modalContainer) {
+            closeModal();
+        }
+    });
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !modalContainer.classList.contains('hidden')) {
+            closeModal();
         }
     });
 });
