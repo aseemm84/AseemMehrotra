@@ -1,7 +1,7 @@
 /**
  * @file Main script for the Interactive Resume Web App.
  * @author Aseem Mehrotra & Gemini
- * @version 2.2.0
+ * @version 2.3.0
  * @description This script handles data fetching, DOM population, 3D animations, and scroll-based interactions.
  */
 
@@ -179,9 +179,12 @@ const Animations = {
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
     },
+    // --- FIX START: Restructured Skills Galaxy for reliable interaction ---
     initSkillsGalaxy: () => {
         const s = state.three.skills;
         const canvas = document.getElementById('skills-canvas');
+        const tooltip = document.getElementById('skill-tooltip');
+        
         s.scene = new THREE.Scene();
         s.camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
         s.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
@@ -189,7 +192,7 @@ const Animations = {
         s.camera.position.z = 200;
 
         s.raycaster = new THREE.Raycaster();
-        s.mouse = new THREE.Vector2();
+        s.mouse = new THREE.Vector2(-100, -100); // Initialize off-screen
         s.skillsGroup = new THREE.Group();
         
         const skillCategories = ['All', ...new Set(state.data.skills.map(skill => skill.category))];
@@ -212,6 +215,26 @@ const Animations = {
         const animate = () => {
             requestAnimationFrame(animate);
             s.skillsGroup.rotation.y += 0.0005;
+
+            // Raycasting logic is now inside the animation loop for reliability
+            s.raycaster.setFromCamera(s.mouse, s.camera);
+            const intersects = s.raycaster.intersectObjects(s.skillsGroup.children.filter(c => c.visible));
+
+            if (intersects.length > 0) {
+                if (s.INTERSECTED !== intersects[0].object) {
+                    if (s.INTERSECTED) s.INTERSECTED.material.color.setHex(s.INTERSECTED.currentHex);
+                    s.INTERSECTED = intersects[0].object;
+                    s.INTERSECTED.currentHex = s.INTERSECTED.material.color.getHex();
+                    s.INTERSECTED.material.color.setHex(0xffffff);
+                    tooltip.style.display = 'block';
+                    tooltip.textContent = s.INTERSECTED.userData.name;
+                }
+            } else {
+                if (s.INTERSECTED) s.INTERSECTED.material.color.setHex(s.INTERSECTED.currentHex);
+                s.INTERSECTED = null;
+                tooltip.style.display = 'none';
+            }
+
             s.renderer.render(s.scene, s.camera);
         };
         animate();
@@ -227,11 +250,20 @@ const Animations = {
                 });
             }
         });
+
+        // Add a resize listener for this specific canvas
+        window.addEventListener('resize', () => {
+            if (canvas.clientWidth > 0 && canvas.clientHeight > 0) {
+                s.camera.aspect = canvas.clientWidth / canvas.clientHeight;
+                s.camera.updateProjectionMatrix();
+                s.renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            }
+        });
     },
+    // --- FIX END ---
     initScrollAnimations: () => {
         gsap.registerPlugin(ScrollTrigger);
 
-        // --- FIX START: Robust Impact Meter Animation ---
         const metersContainer = document.querySelector('#impact-meters-container');
         if (metersContainer) {
             const meters = metersContainer.querySelectorAll('[data-value]');
@@ -239,15 +271,13 @@ const Animations = {
             ScrollTrigger.create({
                 trigger: metersContainer,
                 start: "top 80%",
-                once: true, // Ensures the animation runs only once
+                once: true,
                 onEnter: () => {
                     meters.forEach(meter => {
                         const endValue = parseFloat(meter.dataset.value);
                         const prefix = meter.dataset.prefix || '';
                         const unit = meter.dataset.unit || '';
-
                         let proxy = { value: 0 };
-
                         gsap.to(proxy, {
                             value: endValue,
                             duration: 2,
@@ -256,7 +286,6 @@ const Animations = {
                                 meter.textContent = prefix + Math.ceil(proxy.value) + unit;
                             },
                             onComplete: () => {
-                                // Ensure the final value is precise and correct
                                 meter.textContent = prefix + endValue + unit;
                             }
                         });
@@ -264,9 +293,7 @@ const Animations = {
                 }
             });
         }
-        // --- FIX END ---
 
-        // Timeline items fade-in
         document.querySelectorAll('.timeline-item').forEach(item => {
             gsap.from(item, {
                 opacity: 0,
@@ -276,7 +303,6 @@ const Animations = {
             });
         });
 
-        // Rocket progress bar
         gsap.to('#progress-rocket', {
             bottom: 'calc(100% - 2rem)',
             ease: 'none',
@@ -293,38 +319,29 @@ const Animations = {
 
 // --- MODULE: EVENT LISTENERS ---
 const Events = {
+    // --- FIX START: Mouse listener now only updates coordinates and tooltip position ---
     setupSkillsGalaxyMouseEvents: () => {
         const s = state.three.skills;
         const tooltip = document.getElementById('skill-tooltip');
 
         const onMouseMove = (event) => {
             event.preventDefault();
+            
             const rect = s.renderer.domElement.getBoundingClientRect();
-            s.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-            s.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            if(rect.width > 0 && rect.height > 0) {
+                s.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+                s.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+            }
 
-            s.raycaster.setFromCamera(s.mouse, s.camera);
-            const intersects = s.raycaster.intersectObjects(s.skillsGroup.children.filter(c => c.visible));
-
-            if (intersects.length > 0) {
-                if (s.INTERSECTED !== intersects[0].object) {
-                    if (s.INTERSECTED) s.INTERSECTED.material.color.setHex(s.INTERSECTED.currentHex);
-                    s.INTERSECTED = intersects[0].object;
-                    s.INTERSECTED.currentHex = s.INTERSECTED.material.color.getHex();
-                    s.INTERSECTED.material.color.setHex(0xffffff);
-                    tooltip.style.display = 'block';
-                    tooltip.textContent = s.INTERSECTED.userData.name;
-                }
+            // Always update tooltip position if it's visible
+            if (tooltip.style.display === 'block') {
                 tooltip.style.left = (event.clientX + 15) + 'px';
                 tooltip.style.top = (event.clientY + 15) + 'px';
-            } else {
-                if (s.INTERSECTED) s.INTERSECTED.material.color.setHex(s.INTERSECTED.currentHex);
-                s.INTERSECTED = null;
-                tooltip.style.display = 'none';
             }
         };
         window.addEventListener('mousemove', onMouseMove, false);
     },
+    // --- FIX END ---
     setupAll: () => {
         Events.setupSkillsGalaxyMouseEvents();
     }
