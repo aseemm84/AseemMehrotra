@@ -1,7 +1,7 @@
 /**
  * @file Main script for the Interactive Resume Web App.
  * @author Aseem Mehrotra & Gemini
- * @version 2.3.0
+ * @version 2.4.0
  * @description This script handles data fetching, DOM population, 3D animations, and scroll-based interactions.
  */
 
@@ -16,7 +16,8 @@ const state = {
             raycaster: null,
             mouse: null,
             skillsGroup: null,
-            INTERSECTED: null
+            INTERSECTED: null, // For hover
+            SELECTED: null    // For click
         }
     }
 };
@@ -179,12 +180,17 @@ const Animations = {
             renderer.setSize(window.innerWidth, window.innerHeight);
         });
     },
-    // --- FIX START: Restructured Skills Galaxy for reliable interaction ---
     initSkillsGalaxy: () => {
         const s = state.three.skills;
         const canvas = document.getElementById('skills-canvas');
         const tooltip = document.getElementById('skill-tooltip');
         
+        // --- FIX: Create a dedicated element for displaying the selected skill ---
+        const skillDisplay = document.createElement('div');
+        skillDisplay.id = 'skill-display';
+        skillDisplay.className = 'absolute bottom-8 left-1/2 -translate-x-1/2 text-lg text-white font-bold transition-opacity duration-300 opacity-0';
+        canvas.parentElement.appendChild(skillDisplay);
+
         s.scene = new THREE.Scene();
         s.camera = new THREE.PerspectiveCamera(75, canvas.clientWidth / canvas.clientHeight, 0.1, 1000);
         s.renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
@@ -192,7 +198,7 @@ const Animations = {
         s.camera.position.z = 200;
 
         s.raycaster = new THREE.Raycaster();
-        s.mouse = new THREE.Vector2(-100, -100); // Initialize off-screen
+        s.mouse = new THREE.Vector2(-100, -100);
         s.skillsGroup = new THREE.Group();
         
         const skillCategories = ['All', ...new Set(state.data.skills.map(skill => skill.category))];
@@ -216,16 +222,18 @@ const Animations = {
             requestAnimationFrame(animate);
             s.skillsGroup.rotation.y += 0.0005;
 
-            // Raycasting logic is now inside the animation loop for reliability
             s.raycaster.setFromCamera(s.mouse, s.camera);
             const intersects = s.raycaster.intersectObjects(s.skillsGroup.children.filter(c => c.visible));
 
             if (intersects.length > 0) {
-                if (s.INTERSECTED !== intersects[0].object) {
+                const firstIntersected = intersects[0].object;
+                if (s.INTERSECTED !== firstIntersected) {
                     if (s.INTERSECTED) s.INTERSECTED.material.color.setHex(s.INTERSECTED.currentHex);
-                    s.INTERSECTED = intersects[0].object;
+                    
+                    s.INTERSECTED = firstIntersected;
                     s.INTERSECTED.currentHex = s.INTERSECTED.material.color.getHex();
                     s.INTERSECTED.material.color.setHex(0xffffff);
+                    
                     tooltip.style.display = 'block';
                     tooltip.textContent = s.INTERSECTED.userData.name;
                 }
@@ -235,11 +243,24 @@ const Animations = {
                 tooltip.style.display = 'none';
             }
 
+            // --- FIX: Logic to position tooltip correctly ---
+            if (s.INTERSECTED) {
+                const vector = new THREE.Vector3();
+                s.INTERSECTED.getWorldPosition(vector);
+                vector.project(s.camera);
+                
+                const rect = s.renderer.domElement.getBoundingClientRect();
+                const x = (vector.x * 0.5 + 0.5) * rect.width + rect.left;
+                const y = (vector.y * -0.5 + 0.5) * rect.height + rect.top;
+
+                tooltip.style.left = `${x + 15}px`;
+                tooltip.style.top = `${y}px`;
+            }
+
             s.renderer.render(s.scene, s.camera);
         };
         animate();
         
-        // Filters
         const filtersContainer = document.getElementById('skill-filters');
         filtersContainer.innerHTML = skillCategories.map(cat => `<button data-category="${cat}" class="skill-filter-btn glass-panel px-3 py-1 md:px-4 md:py-2 rounded-full text-sm">${cat}</button>`).join('');
         filtersContainer.addEventListener('click', e => {
@@ -251,7 +272,6 @@ const Animations = {
             }
         });
 
-        // Add a resize listener for this specific canvas
         window.addEventListener('resize', () => {
             if (canvas.clientWidth > 0 && canvas.clientHeight > 0) {
                 s.camera.aspect = canvas.clientWidth / canvas.clientHeight;
@@ -260,7 +280,6 @@ const Animations = {
             }
         });
     },
-    // --- FIX END ---
     initScrollAnimations: () => {
         gsap.registerPlugin(ScrollTrigger);
 
@@ -319,29 +338,55 @@ const Animations = {
 
 // --- MODULE: EVENT LISTENERS ---
 const Events = {
-    // --- FIX START: Mouse listener now only updates coordinates and tooltip position ---
     setupSkillsGalaxyMouseEvents: () => {
         const s = state.three.skills;
-        const tooltip = document.getElementById('skill-tooltip');
+        const canvas = document.getElementById('skills-canvas');
 
         const onMouseMove = (event) => {
             event.preventDefault();
-            
             const rect = s.renderer.domElement.getBoundingClientRect();
             if(rect.width > 0 && rect.height > 0) {
                 s.mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
                 s.mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
             }
+        };
+        
+        // --- FIX: Add click listener for selection ---
+        const onClick = (event) => {
+            event.preventDefault();
+            s.raycaster.setFromCamera(s.mouse, s.camera);
+            const intersects = s.raycaster.intersectObjects(s.skillsGroup.children.filter(c => c.visible));
 
-            // Always update tooltip position if it's visible
-            if (tooltip.style.display === 'block') {
-                tooltip.style.left = (event.clientX + 15) + 'px';
-                tooltip.style.top = (event.clientY + 15) + 'px';
+            if (intersects.length > 0) {
+                const firstClicked = intersects[0].object;
+                
+                // Deselect previous if it exists and is not the same as the new one
+                if (s.SELECTED && s.SELECTED !== firstClicked) {
+                    gsap.to(s.SELECTED.scale, { x: 4, y: 4, duration: 0.3 });
+                }
+
+                // Select the new one
+                s.SELECTED = firstClicked;
+                gsap.to(s.SELECTED.scale, { x: 6, y: 6, duration: 0.3 }); // Make it bigger
+                
+                const skillDisplay = document.getElementById('skill-display');
+                skillDisplay.textContent = s.SELECTED.userData.name;
+                gsap.to(skillDisplay, { opacity: 1, duration: 0.3 });
+
+            } else {
+                // Clicked on empty space, deselect
+                if (s.SELECTED) {
+                    gsap.to(s.SELECTED.scale, { x: 4, y: 4, duration: 0.3 });
+                    s.SELECTED = null;
+                    const skillDisplay = document.getElementById('skill-display');
+                    gsap.to(skillDisplay, { opacity: 0, duration: 0.3 });
+                }
             }
         };
-        window.addEventListener('mousemove', onMouseMove, false);
+
+        canvas.addEventListener('mousemove', onMouseMove, false);
+        canvas.addEventListener('click', onClick, false);
     },
-    // --- FIX END ---
     setupAll: () => {
         Events.setupSkillsGalaxyMouseEvents();
     }
