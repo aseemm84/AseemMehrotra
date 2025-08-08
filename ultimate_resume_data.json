@@ -151,7 +151,7 @@
     {
       "name": "ScienceGPT",
       "description": "A GenAI-powered app to make scientific knowledge accessible and understandable.",
-      "liveUrl": "https://science-gpt.streamlit.app",
+      "liveUrl": "https://aseemm84.github.io/science-gpt/",
       "codeUrl": "https://github.com/aseemm84/science-gpt"
     },
     {
@@ -169,7 +169,7 @@
     {
       "name": "Business-Intelligence-App",
       "description": "An interactive BI dashboard for data exploration and uncovering business insights.",
-      "liveUrl": "https://data-bi-tool.streamlit.app",
+      "liveUrl": "https://aseemm84.github.io/bi-tool-landing/",
       "codeUrl": "https://github.com/aseemm84/Business-Intelligence-App"
     },
     {
@@ -177,24 +177,6 @@
       "description": "Created a GenAI powered web application that generates audience-specific customized social media marketing content.",
       "liveUrl": "https://social-media-post-gen.streamlit.app/",
       "codeUrl": "https://github.com/aseemm84/DMA-Streamlit-App"
-    },
-    {
-      "name": "Luxury Car Dealership Dashboard",
-      "description": "Designed interactive Sales & Revenues dashboards and reports in Power BI for a luxury car dealership in Stirling, Scotland.",
-      "liveUrl": "#",
-      "codeUrl": "#"
-    },
-    {
-      "name": "NHS Scotland Efficiency Report",
-      "description": "Developed Power BI reports for NHS Scotland to improve the dermatology department efficiency in the Forth Valley area.",
-      "liveUrl": "#",
-      "codeUrl": "#"
-    },
-    {
-      "name": "Customer Satisfaction Prediction Model",
-      "description": "Developed an ANN model to predict customer satisfaction based on various parameters, achieving 95.22% accuracy.",
-      "liveUrl": "#",
-      "codeUrl": "#"
     }
   ],
   "certifications": [
